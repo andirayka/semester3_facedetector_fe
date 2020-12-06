@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Particles from "react-particles-js";
+import Navigation from "./components/navigation/Navigation";
+import ImageLinkForm from "./components/imageLinkForm/ImageLinkForm";
+import Logo from "./components/logo/Logo";
+import Rank from "./components/rank/Rank";
+import "./App.css";
 
-function App() {
+const particelOptions = {
+  particles: {
+    number: {
+      value: 60,
+      density: {
+        enable: true,
+        value_area: 800,
+      },
+    },
+  },
+};
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Particles className="particles" params={particelOptions} />
+      <Navigation />
+      <Logo />
+      <Rank />
+      <ImageLinkForm />
     </div>
   );
-}
+};
 
 export default App;
