@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
 import Navigation from "./components/navigation/Navigation";
+import Signin from "./components/signin/Signin";
+import Register from "./components/register/Register";
 import FaceRecognition from "./components/faceRecognition/FaceRecognition";
 import ImageLinkForm from "./components/imageLinkForm/ImageLinkForm";
 import Logo from "./components/logo/Logo";
@@ -26,6 +28,8 @@ const App = () => {
   const [input, setInput] = useState("");
   const [imageUrl, setImageUrl] = useState("");
   const [box, setBox] = useState("");
+  const [route, setRoute] = useState("signin");
+  const [isSignin, setIsSignin] = useState(false);
 
   const calculateLocation = (data) => {
     const clarifaiFace =
@@ -43,7 +47,6 @@ const App = () => {
   };
 
   const displayFaceBox = (box) => {
-    console.log({ box });
     setBox(box);
   };
 
@@ -59,17 +62,34 @@ const App = () => {
       .catch((err) => console.log(err));
   };
 
+  const onRouteChange = (route) => {
+    if (route === "signout") {
+      setIsSignin(false);
+    } else if (route === "home") {
+      setIsSignin(true);
+    }
+    setRoute(route);
+  };
+
   return (
     <div className="App">
       <Particles className="particles" params={particleOptions} />
-      <Navigation />
-      <Logo />
-      <Rank />
-      <ImageLinkForm
-        onInputChange={onInputChange}
-        onButtonSubmit={onButtonSubmit}
-      />
-      <FaceRecognition box={box} imageUrl={imageUrl} />
+      <Navigation isSignin={isSignin} onRouteChange={onRouteChange} />
+      {route == "home" ? (
+        <>
+          <Logo />
+          <Rank />
+          <ImageLinkForm
+            onInputChange={onInputChange}
+            onButtonSubmit={onButtonSubmit}
+          />
+          <FaceRecognition box={box} imageUrl={imageUrl} />
+        </>
+      ) : route == "signin" ? (
+        <Signin onRouteChange={onRouteChange} />
+      ) : (
+        <Register onRouteChange={onRouteChange} />
+      )}
     </div>
   );
 };

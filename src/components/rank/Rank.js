@@ -4,8 +4,10 @@ import React from "react";
 const Rank = () => {
   return (
     <div>
-      <div className="white f3">{"User, peringkat Anda adalah"}</div>
-      <div className="white f1">{"#5"}</div>
+      <div className="black f2">
+        {"NamaUser, Anda sudah menggunakan layanan deteksi sebanyak"}
+      </div>
+      <div className="black f1">{"#5 kali"}</div>
     </div>
   );
 };

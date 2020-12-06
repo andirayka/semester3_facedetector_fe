@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navigation = () => {
+const Navigation = ({ onRouteChange, isSignin }) => {
   return (
     <nav
       style={{
@@ -8,7 +8,29 @@ const Navigation = () => {
         justifyContent: "flex-end",
       }}
     >
-      <p className="f3 link dim black underline pa3 pointer">Sign Out</p>
+      {isSignin ? (
+        <p
+          onClick={() => onRouteChange("signout")}
+          className="f3 link dim black underline pa3 pointer"
+        >
+          Keluar
+        </p>
+      ) : (
+        <>
+          <p
+            onClick={() => onRouteChange("signin")}
+            className="f3 link dim black underline pa3 pointer"
+          >
+            Masuk
+          </p>
+          <p
+            onClick={() => onRouteChange("register")}
+            className="f3 link dim black underline pa3 pointer"
+          >
+            Daftar
+          </p>
+        </>
+      )}
     </nav>
   );
 };
