@@ -30,6 +30,7 @@ const App = () => {
   const [box, setBox] = useState("");
   const [route, setRoute] = useState("signin");
   const [isSignin, setIsSignin] = useState(false);
+  const [userData, setUserData] = useState({ name: "", entries: 0 });
 
   const calculateLocation = (data) => {
     const clarifaiFace =
@@ -78,7 +79,7 @@ const App = () => {
       {route == "home" ? (
         <>
           <Logo />
-          <Rank />
+          <Rank name={userData.name} entries={userData.entries} />
           <ImageLinkForm
             onInputChange={onInputChange}
             onButtonSubmit={onButtonSubmit}
@@ -86,9 +87,9 @@ const App = () => {
           <FaceRecognition box={box} imageUrl={imageUrl} />
         </>
       ) : route == "signin" ? (
-        <Signin onRouteChange={onRouteChange} />
+        <Signin onSignin={setUserData} onRouteChange={onRouteChange} />
       ) : (
-        <Register onRouteChange={onRouteChange} />
+        <Register onRegister={setUserData} onRouteChange={onRouteChange} />
       )}
     </div>
   );
