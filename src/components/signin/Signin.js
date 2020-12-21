@@ -11,7 +11,7 @@ const Signin = ({ onRouteChange, onSignin }) => {
         email,
         password,
       })
-      .then((err) => console.log(err));
+      .catch((err) => console.log(err));
 
     if (user) {
       onSignin(user);

@@ -7,18 +7,13 @@ const Register = ({ onRouteChange, onRegister }) => {
   const [name, setName] = useState("");
 
   const onSubmit = async () => {
-    console.log({
-      email,
-      password,
-      name,
-    });
     const user = await api
       .post("register", {
         email,
         password,
         name,
       })
-      .then((err) => console.log(err));
+      .catch((err) => console.log(err));
 
     if (user) {
       onRegister(user);
