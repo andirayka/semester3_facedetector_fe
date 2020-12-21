@@ -7,6 +7,11 @@ const Register = ({ onRouteChange, onRegister }) => {
   const [name, setName] = useState("");
 
   const onSubmit = async () => {
+    console.log({
+      email,
+      password,
+      name,
+    });
     const user = await api
       .post("register", {
         email,
@@ -15,7 +20,7 @@ const Register = ({ onRouteChange, onRegister }) => {
       })
       .then((err) => console.log(err));
 
-    if (user.id) {
+    if (user) {
       onRegister(user);
       onRouteChange("home");
     }
@@ -36,7 +41,7 @@ const Register = ({ onRouteChange, onRegister }) => {
                 type="text"
                 name="name"
                 id="name"
-                onChange={setName}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="mt3">
@@ -48,7 +53,7 @@ const Register = ({ onRouteChange, onRegister }) => {
                 type="email"
                 name="email-address"
                 id="email-address"
-                onChange={setEmail}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mv3">
@@ -60,7 +65,7 @@ const Register = ({ onRouteChange, onRegister }) => {
                 type="password"
                 name="password"
                 id="password"
-                onChange={setPassword}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </fieldset>

@@ -13,7 +13,7 @@ const Signin = ({ onRouteChange, onSignin }) => {
       })
       .then((err) => console.log(err));
 
-    if (user.id) {
+    if (user) {
       onSignin(user);
       onRouteChange("home");
     }
@@ -34,7 +34,7 @@ const Signin = ({ onRouteChange, onSignin }) => {
                 type="email"
                 name="email-address"
                 id="email-address"
-                onChange={setEmail}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="mv3">
@@ -46,7 +46,7 @@ const Signin = ({ onRouteChange, onSignin }) => {
                 type="password"
                 name="password"
                 id="password"
-                onChange={setPassword}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </fieldset>
