@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
+import { api } from "../api";
 import Navigation from "./components/navigation/Navigation";
 import Signin from "./components/signin/Signin";
 import Register from "./components/register/Register";
@@ -51,7 +52,16 @@ const App = () => {
     setImageSrc(inputUrl);
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, inputUrl)
-      .then((resp) => setBox(calculateLocation(resp)))
+      .then(async (resp) => {
+        api
+          .put("image", {
+            id: userData.id,
+          })
+          .then((newUserData) =>
+            setUserData({ ...userData, entries: newUserData.data })
+          );
+        setBox(calculateLocation(resp));
+      })
       .catch(console.log);
   };
 
@@ -59,7 +69,16 @@ const App = () => {
     setImageSrc(base64Img);
     app.models
       .predict(Clarifai.GENERAL_MODEL, { base64: base64Img })
-      .then((resp) => setBox(calculateLocation(resp)))
+      .then(async (resp) => {
+        api
+          .put("image", {
+            id: userData.id,
+          })
+          .then((newUserData) =>
+            setUserData({ ...userData, entries: newUserData.data })
+          );
+        setBox(calculateLocation(resp));
+      })
       .catch(console.log);
   };
 
