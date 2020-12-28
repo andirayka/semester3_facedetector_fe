@@ -47,15 +47,11 @@ const App = () => {
     };
   };
 
-  const displayFaceBox = (box) => {
-    setBox(box);
-  };
-
   const onSubmitUrl = () => {
     setImageSrc(inputUrl);
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, inputUrl)
-      .then((resp) => displayFaceBox(calculateLocation(resp)))
+      .then((resp) => setBox(calculateLocation(resp)))
       .catch(console.log);
   };
 
@@ -63,7 +59,7 @@ const App = () => {
     setImageSrc(base64Img);
     app.models
       .predict(Clarifai.GENERAL_MODEL, { base64: base64Img })
-      .then((resp) => displayFaceBox(calculateLocation(resp)))
+      .then((resp) => setBox(calculateLocation(resp)))
       .catch(console.log);
   };
 

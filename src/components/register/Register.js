@@ -16,8 +16,10 @@ const Register = ({ onRouteChange, onRegister }) => {
       .catch((err) => console.log(err));
 
     if (user) {
-      onRegister(user);
-      onRouteChange("home");
+      if (user.data.email) {
+        onRegister(user);
+        onRouteChange("home");
+      }
     }
   };
 

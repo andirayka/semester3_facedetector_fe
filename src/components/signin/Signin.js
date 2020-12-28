@@ -14,8 +14,10 @@ const Signin = ({ onRouteChange, onSignin }) => {
       .catch((err) => console.log(err));
 
     if (user) {
-      onSignin(user);
-      onRouteChange("home");
+      if (user.data.email) {
+        onSignin(user);
+        onRouteChange("home");
+      }
     }
   };
 
