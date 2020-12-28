@@ -17,7 +17,7 @@ const Register = ({ onRouteChange, onRegister }) => {
 
     if (user) {
       if (user.data.email) {
-        onRegister(user);
+        onRegister(user.data);
         onRouteChange("home");
       }
     }

@@ -15,7 +15,7 @@ const Signin = ({ onRouteChange, onSignin }) => {
 
     if (user) {
       if (user.data.email) {
-        onSignin(user);
+        onSignin(user.data);
         onRouteChange("home");
       }
     }
