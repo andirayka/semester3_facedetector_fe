@@ -22,11 +22,11 @@ const particleOptions = {
   },
 };
 
-const app = new Clarifai.App({ apiKey: "cc0013dd5e2c4148b941e8a364705f40" });
+const app = new Clarifai.App({ apiKey: "5d994657e61c4776add8271588e0f8cf" });
 
 const App = () => {
-  const [input, setInput] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
+  const [inputUrl, setInputUrl] = useState("");
+  const [imageSrc, setImageSrc] = useState("");
   const [box, setBox] = useState("");
   const [route, setRoute] = useState("signin");
   const [isSignin, setIsSignin] = useState(false);
@@ -51,16 +51,20 @@ const App = () => {
     setBox(box);
   };
 
-  const onInputChange = (event) => {
-    setInput(event.target.value);
+  const onSubmitUrl = () => {
+    setImageSrc(inputUrl);
+    app.models
+      .predict(Clarifai.FACE_DETECT_MODEL, inputUrl)
+      .then((resp) => displayFaceBox(calculateLocation(resp)))
+      .catch(console.log);
   };
 
-  const onButtonSubmit = () => {
-    setImageUrl(input);
+  const onSubmitBase64 = (base64Img) => {
+    setImageSrc(base64Img);
     app.models
-      .predict(Clarifai.FACE_DETECT_MODEL, input)
+      .predict(Clarifai.GENERAL_MODEL, { base64: base64Img })
       .then((resp) => displayFaceBox(calculateLocation(resp)))
-      .catch((err) => console.log(err));
+      .catch(console.log);
   };
 
   const onRouteChange = (route) => {
@@ -81,10 +85,11 @@ const App = () => {
           <Logo />
           <Rank name={userData.name} entries={userData.entries} />
           <ImageLinkForm
-            onInputChange={onInputChange}
-            onButtonSubmit={onButtonSubmit}
+            onInputChange={setInputUrl}
+            onSubmitUrl={onSubmitUrl}
+            onSubmitBase64={onSubmitBase64}
           />
-          <FaceRecognition box={box} imageUrl={imageUrl} />
+          <FaceRecognition box={box} imageSrc={imageSrc} />
         </>
       ) : route == "signin" ? (
         <Signin onSignin={setUserData} onRouteChange={onRouteChange} />

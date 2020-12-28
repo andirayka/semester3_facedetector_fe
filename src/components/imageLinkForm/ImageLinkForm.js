@@ -1,14 +1,35 @@
 import React, { useState } from "react";
 import "./ImageLinkForm.css";
 
-// https://docs.clarifai.com/api-guide/predict/images
-// Nanti pake base64
-const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
+const ImageLinkForm = ({ onInputChange, onSubmitUrl, onSubmitBase64 }) => {
   const [inputType, setInputType] = useState("url");
+
+  const getInputImage = async (e) => {
+    const file = e.target.files[0];
+    const base64Img = await convertBase64(file);
+    onSubmitBase64(base64Img);
+  };
+
+  const convertBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => resolve(fileReader.result);
+      fileReader.onerror = (err) => reject(err);
+    });
+  };
 
   return (
     <div>
-      <input type="file" id="gambar" name="gambar" className="dn" />
+      <input
+        type="file"
+        accept="image/*"
+        id="gambar"
+        name="gambar"
+        className="dn"
+        onChange={getInputImage}
+      />
 
       <div className="pa4">
         <button
@@ -31,12 +52,12 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
               <input
                 className="f4 pa2 w-70 center"
                 type="text"
-                onChange={onInputChange}
+                onChange={(event) => onInputChange(event.target.value)}
                 placeholder="Masukkan URL gambar"
               />
               <button
                 className="w-30 grow f4 link ph3 pv2 dib white bg-black"
-                onClick={onButtonSubmit}
+                onClick={onSubmitUrl}
               >
                 Deteksi URL
               </button>
@@ -44,7 +65,7 @@ const ImageLinkForm = ({ onInputChange, onButtonSubmit }) => {
           ) : (
             <button
               className="f4 pa2 w-100 center grow white bg-black"
-              onClick={() => setInputType("file")}
+              onClick={() => document.getElementById("gambar").click()}
             >
               Pilih File
             </button>
