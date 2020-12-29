@@ -52,34 +52,29 @@ const App = () => {
     setImageSrc(inputUrl);
     app.models
       .predict(Clarifai.FACE_DETECT_MODEL, inputUrl)
-      .then(async (resp) => {
-        api
-          .put("image", {
-            id: userData.id,
-          })
-          .then((newUserData) =>
-            setUserData({ ...userData, entries: newUserData.data })
-          );
-        setBox(calculateLocation(resp));
-      })
+      .then(callImageApi)
       .catch(console.log);
   };
 
   const onSubmitBase64 = (base64Img) => {
     setImageSrc(base64Img);
     app.models
-      .predict(Clarifai.GENERAL_MODEL, { base64: base64Img })
-      .then(async (resp) => {
-        api
-          .put("image", {
-            id: userData.id,
-          })
-          .then((newUserData) =>
-            setUserData({ ...userData, entries: newUserData.data })
-          );
-        setBox(calculateLocation(resp));
+      .predict(Clarifai.FACE_DETECT_MODEL, {
+        base64: base64Img.substr(23),
       })
+      .then(callImageApi)
       .catch(console.log);
+  };
+
+  const callImageApi = (resp) => {
+    api
+      .put("image", {
+        id: userData.id,
+      })
+      .then((newUserData) =>
+        setUserData({ ...userData, entries: newUserData.data })
+      );
+    setBox(calculateLocation(resp));
   };
 
   const onRouteChange = (route) => {
