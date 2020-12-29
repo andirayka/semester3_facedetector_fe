@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Particles from "react-particles-js";
 import Clarifai from "clarifai";
-import { api } from "../api";
+import { api } from "./components/api";
 import Navigation from "./components/navigation/Navigation";
 import Signin from "./components/signin/Signin";
 import Register from "./components/register/Register";
